@@ -36,23 +36,24 @@
     					<h5>群组信息</h5>
     				</div>
     				<div class="ibox-content">
-    					<form:form class="form-horizontal" name="gp_form_c" role="form" commandName="group" action="admin/saveGroup.do" method="post">
-    						<div style="display:none;"><form:hidden path="id"/></div>
+    					<form class="form-horizontal" name="access_form_c" role="form" action="access/store" method="post">
+    						<div style="display:none;"><input type="hidden" name="id" value="${ access.id }" /></div>
     						<!-- 编辑权限 -->
     						<shiro:hasPermission name="fdbk:edit">
 								<div class="form-group">
-								  <label class="col-sm-2 control-label" for="exampleInputEmail1">群组名称</label>
+								  <label class="col-sm-2 control-label" for="inputUserName">用户姓名</label>
 								  <div class="col-sm-8">
-								  	<form:input path="groupName" class="form-control" id="Fld_groupName" placeholder="群组名称" />
+								  	<input class="form-control" id="inputUserName" name="inputUserName" placeholder="姓名" value="${ access.userName }" />
 								  </div>
 								</div>
 								<div class="hr-line-dashed"></div>
 								<div class="form-group">
-								  	<label class="col-sm-2 control-label">选择人员</label>
+								  	<label class="col-sm-2 control-label">权限</label>
 	                                <div class="col-sm-8">
-	                                	<c:forEach items="${nameLst}" var="nl">
-	                                    	<label class="checkbox-inline i-checks" style="min-width:61;">
-                                        	<form:checkbox path="groupMember" value="${nl.name}" id="i_cb_${nl.name}" />${nl.name}</label>
+	                                	<c:forEach items="${ roleLst }" var="role">
+	                                	<label class="checkbox-inline i-checks" style="min-width:61;">
+	                                		<input type="checkbox" value="${ role.id }" id="i_cb_${ role.id }" name="inputRoleMember">${ role.roleTitle }
+                                        </label>
                                         </c:forEach>
 	                                </div>
 								</div>
@@ -65,7 +66,7 @@
 									<button type="button" class="btn btn-default" onclick="returnLst();">返回</button>
 								</div>
 							</div>
-    					</form:form>
+    					</form>
     				</div>
     			</div>
     		</div>
@@ -97,11 +98,11 @@
         }
         
         function submitFB(para){
-			document.gp_form_c.submit();
+			document.access_form_c.submit();
 		}
 		
 		function returnLst(){
-			var url = "<%=request.getContextPath()%>/admin/<%=s.getAttribute("vwPage")%>";
+			var url = "<%=request.getContextPath()%>/access/index";
 			$("#J_iframe", window.parent.document).attr('src',url);
 			return false;
 		}

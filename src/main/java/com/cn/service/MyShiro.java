@@ -26,6 +26,10 @@ public class MyShiro extends AuthorizingRealm {
 		SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
         authorizationInfo.setRoles(userService.findRoles(username));
         authorizationInfo.setStringPermissions(userService.findPermissions(username));
+        
+//      记录当前人员
+        userService.checkUser(username);
+        
 		return authorizationInfo;
 	}
 	

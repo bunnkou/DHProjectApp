@@ -88,7 +88,7 @@
 	                        </a>
 	                    </li>
 	                    <li>
-	                        <a class="J_menuItem" href="<%=basePath%>admin/vwGroups">
+	                        <a class="J_menuItem" href="<%=basePath%>/access/index">
 	                            <i class="fa fa-cog"></i>
 	                            <span class="nav-label">权限</span>
 	                        </a>
@@ -103,19 +103,23 @@
         	
         	<div class="row border-bottom">
 				<nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+					
 					<div class="navbar-header">
 						<a class="navbar-minimalize minimalize-styl-2 btn btn-info " href="#"><i class="fa fa-bars"></i> </a>
-						<a class="navbar-brand" href="#">
-							<shiro:hasRole name="admin">管理员</shiro:hasRole>用户：${currUser}
-						</a>
 					</div>
-					<ul class="nav navbar-nav navbar-right">
-						<li>
-							<a class="btn btn-default " href="#" onclick="checkOut();" style="padding:4px 2px 4px 12px; margin:10px 30px 5px 5px; font-size:14px;">
-								<i class="fa fa-sign-out"></i> 
-							</a>
-						</li>
-					</ul>
+					
+					<div class="nav navbar-nav navbar-right dropdown" style="margin:10px 30px 5px;">
+						<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" 
+								data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+							用户：${currUser}
+							<span class="caret"></span>	
+						</button>
+						<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+							<li><a href="#">修改密码</a></li>
+							<li><a href="#" onclick="checkOut();">注销</a></li>
+						</ul>
+					</div>
+						
 				</nav>
 			</div>
         	

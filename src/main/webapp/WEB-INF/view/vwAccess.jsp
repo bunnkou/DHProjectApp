@@ -45,12 +45,11 @@
 	    $table.bootstrapTable({
 	    	height: getHeight(),
 	    	toolbar: '#Toolbar',
-	    	url: "<%=request.getContextPath()%>/admin/showAccessList.do",
+	    	url: "<%=request.getContextPath()%>/access/getLst.do",
 		    columns: [
-		    	{field: 'state', checkbox: true, align: 'center', valign: 'middle'},
-		    	{field: 'groupName',title: '群组名称'},
-		    	{field: 'groupMember',title: '群组成员'},
-		    	{field: 'createDate',title: '创建时间'},
+		    	/* {field: 'state', checkbox: true, align: 'center', valign: 'middle'}, */
+		    	{field: 'userName',title: '姓名'},
+		    	{field: 'roleName',title: '权限'},
 		    	{field: 'id',title: '操作',align: 'center',events: operateEvents,formatter: operateFormatter}
 		    ],
 		    search: true
@@ -102,8 +101,8 @@
     }
     
     function openDoc(id){
-		var url = "<%=request.getContextPath()%>/admin/0";
-		if(id) url = "<%=request.getContextPath()%>/admin/"+id;
+		var url = "<%=request.getContextPath()%>/access/0";
+		if(id) url = "<%=request.getContextPath()%>/access/" + id;
 		$("#J_iframe", window.parent.document).attr('src',url);
        	return false;
 	}

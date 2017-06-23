@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.Mapper.UserMapper;
 import com.entity.User;
 
 @Repository
@@ -17,7 +18,9 @@ public class UserDaoImpl implements UserDao {
 	
 	@Autowired
     private JdbcTemplate jdbcTemplate;
-	
+	@Autowired
+	private UserMapper userMapper;
+		
 	@Override
 	public User getByUserName(String userName){
 		String sql = "select * from ml_pwd_interface where name = ? or name_py = ?";
@@ -54,9 +57,33 @@ public class UserDaoImpl implements UserDao {
 	
 	@Override
 	public List<Map<String, Object>> getAllNames() {
-		//动画部人员
 		String sql = "SELECT Name_CN as name FROM ml_user WHERE `Status` = '1' AND BudgetDeptCode = '1001-06001'";
 		return jdbcTemplate.queryForList(sql);
+	}
+
+	@Override
+	public Map<String, String> findCPAByName(String userName) {
+		return userMapper.getCPAByName(userName);
+	}
+
+	@Override
+	public void saveUser(User user) {
+		userMapper.saveUser(user);		
+	}
+
+	@Override
+	public Map<String, String> findUserByName(String userName) {
+		return userMapper.getUserByName(userName);
+	}
+
+	@Override
+	public Integer findCountByCode(String tableName, String code) {
+		return userMapper.findCountByCode(tableName, code);
+	}
+
+	@Override
+	public void saveAsFdbkUser(User user) {
+		userMapper.saveAsFdbkUser(user);
 	}
 	
 }

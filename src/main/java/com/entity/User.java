@@ -6,6 +6,13 @@ public class User {
 	private String name_py;
 	private String password;
 	
+	public User(){
+		this.user_id = "";
+		this.name = "";
+		this.name_py = "";
+		this.password = "123456";
+	}
+	
 	public String getUser_id(){
 		return user_id;
 	}
@@ -30,5 +37,5 @@ public class User {
 	public void setPassword(String password){
 		this.password = password;
 	}
-		
+	
 }

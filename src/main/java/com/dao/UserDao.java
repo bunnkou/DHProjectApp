@@ -15,4 +15,14 @@ public interface UserDao {
 	Set<String> findPermissionsByUserID(String userID);
 	
 	List<Map<String, Object>> getAllNames();
+	
+	Map<String, String> findCPAByName(String userName);
+	
+	void saveUser(User user);
+	
+	Map<String, String> findUserByName(String userName);
+	
+	Integer findCountByCode(String tableName, String code);
+	
+	void saveAsFdbkUser(User user);
 }

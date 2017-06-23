@@ -1,6 +1,7 @@
 package com.service;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -46,6 +47,29 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public List<Map<String, Object>> getAllNames() {
 		return userDao.getAllNames();
+	}
+
+	@Override
+	public void checkUser(String userName) {
+		//1.获得 User 对象
+		Map<String, String> map = new HashMap<String, String>();
+		map = userDao.findUserByName(userName);
+		if ( null == map ) return;
+		User user = new User();
+		user.setUser_id( map.get("Code") );
+		user.setName( map.get("Name_CN") );
+		user.setName_py( map.get("Name_EN") );
+		
+		//2.在 ml_pwd_interface 查询是否存在
+		if ( userDao.findCountByCode( "ml_pwd_interface", user.getUser_id() ).equals(0) ){	//不存在
+			userDao.saveUser(user);
+		}
+		
+		//3.在 dh_fdbk_user 查询是否存在
+		if ( userDao.findCountByCode( "dh_fdbk_user", user.getUser_id() ).equals(0) ){	//不存在
+			userDao.saveAsFdbkUser(user);
+		}
+		
 	}
           
 }

@@ -101,18 +101,5 @@ public class AdminController {
 		String ids = request.getParameter("ids");
 		return groupService.delGroups(ids);
 	}
-	
-	@RequestMapping("vwAccess")
-	public String vwAccess(HttpSession httpSession){
-		curUser = (String) SecurityUtils.getSubject().getPrincipal();
-		httpSession.setAttribute("vwPage", "vwAccess");
-    	return "vwAccess";
-    }
-	
-	@RequestMapping("showAccessList.do")
-	@ResponseBody
-	public List<Group> getAccessList() {
-		return groupService.getFbList(null);
-	}
-	
+		
 }

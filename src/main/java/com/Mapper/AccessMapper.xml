@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.Mapper.AccessMapper">
+
+	<resultMap type="com.entity.Access" id="ACCESS_RESULT">
+		<result property="user_id" column="user_id" />
+		
+		<!-- Get user name -->
+		<association property="user" column="user_id"
+		select="com.Mapper.UserMapper.selectUserById"
+		javaType="com.entity.User" />
+		
+		<!-- Get roles name -->
+		<association property="roleLst" column="user_id"
+		select="com.Mapper.RoleMapper.selectRolesById"
+		javaType="object" />
+		
+	</resultMap>
+	
+	<select id="getAccessBySpec" resultMap="ACCESS_RESULT">
+		SELECT * FROM dh_fdbk_user
+	</select>
+	
+	<select id="getAccessById" parameterType="int" resultMap="ACCESS_RESULT">
+		SELECT * FROM dh_fdbk_user_role WHERE id = #{id}
+	</select>
+	
+	<insert id="saveAccess" parameterType="com.entity.Access" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO dh_fdbk_user_role (user_id, role_id) VALUES (#{user_id}, #{role_id})
+	</insert>
+</mapper>

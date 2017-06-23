@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.Mapper.RoleMapper">
+	<select id="selectRoleById" parameterType="int" resultType="com.entity.Role">
+		SELECT * FROM dh_fdbk_role WHERE id = #{role_id}
+	</select>
+		
+	<resultMap type="com.entity.Role" id="ACCESS_RESULT">
+		<id property="id" column="role_id" />
+		
+		<!-- Get roles name -->
+		<collection property="roles" ofType="com.entity.Role" column="role_id"
+		select="selectRoleById"
+		javaType="ArrayList" />
+		
+	</resultMap>
+	
+	<select id="selectRolesById" parameterType="String" resultMap="ACCESS_RESULT">
+		SELECT * FROM dh_fdbk_user_role WHERE user_id = #{user_id}
+	</select>
+	
+	<select id="all" resultType="com.entity.Role">
+		SELECT * FROM dh_fdbk_role ORDER BY createDate
+	</select>
+</mapper>

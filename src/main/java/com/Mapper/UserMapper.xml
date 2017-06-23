@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.Mapper.UserMapper">
+	<select id="selectUserById" parameterType="String" resultType="com.entity.User">
+		SELECT name FROM ml_pwd_interface WHERE user_id = #{user_id}
+	</select>
+	
+	<select id="getCPAByName" parameterType="String" resultMap="Result_getCPAByName">
+		SELECT Code, REPLACE( LOWER(Name_EN), ' ','' ) AS phonetic FROM ml_user WHERE Name_CN = #{userName} AND Status = '1'
+	</select>
+	<resultMap type="java.util.HashMap" id="Result_getCPAByName">
+		<result property="code" column="Code" />
+		<result property="phonetic" column="phonetic" />
+	</resultMap>
+	
+	<select id="getUserByName" parameterType="String" resultType="java.util.HashMap">
+		SELECT * FROM ml_user WHERE Name_CN = #{userName} AND Status = '1'
+	</select>
+	
+	<select id="findCountByCode" resultType="int" statementType="STATEMENT">
+		SELECT COUNT(1) FROM ${tableName} WHERE user_id = '${code}'
+	</select>
+	
+	<insert id="saveUser" parameterType="com.entity.User">
+		INSERT INTO ml_pwd_interface VALUES( #{user_id}, #{name}, #{name_py}, #{password})
+	</insert>
+	
+	<insert id="saveAsFdbkUser" parameterType="com.entity.User">
+		INSERT INTO dh_fdbk_user VALUES( #{user_id}, #{name}, #{name_py} )
+	</insert>
+	
+</mapper>

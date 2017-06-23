@@ -17,4 +17,7 @@ public interface UserService {
     public Set<String> findPermissions(String username);
     
     public List<Map<String, Object>> getAllNames();
+    
+    public void checkUser(String userName);
+    
 }

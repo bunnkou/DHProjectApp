@@ -150,7 +150,7 @@
     </div>
 	
 	<div id="fancyboxBuffer" style="display:none">
-		<a id="fancyboxBigPic" />
+		<a id="fancyboxBigPic"/>
 	</div>
 	
 	<script type="text/javascript" src="JS/tagsinput/jquery-2.2.4.min.js"></script>

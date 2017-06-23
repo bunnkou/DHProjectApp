@@ -49,7 +49,7 @@
 	<script type="text/javascript">
 		var $table = $('#TBL_vwFbList');
 		var page = 1;
-		var pageSize = 15;
+		var pageSize = 30;
 		
 		$().ready(function(){
 			vwFbList();
@@ -101,7 +101,7 @@
 				toolbar: '#tb',
 				pagination:true,
 				pageSize: pageSize,
-				pageList: [pageSize],
+				pageList: [15,30,50],
 				loadMsg: "数据加载中，请稍后...",
 				fitCloumns: true,
 				columns:[[

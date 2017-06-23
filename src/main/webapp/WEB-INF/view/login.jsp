@@ -13,6 +13,8 @@
     <link href="<%=basePath%>bs-plugins/css/font-awesome.css?v=4.4.0" rel="stylesheet">
     <link href="<%=basePath%>bs-plugins/css/animate.css" rel="stylesheet">
     <link href="<%=basePath%>bs-plugins/css/style.css?v=4.1.0" rel="stylesheet">
+    
+    <title>登录</title>
 </head>
 
 <body class="gray-bg">

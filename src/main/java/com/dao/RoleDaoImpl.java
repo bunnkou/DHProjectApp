@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.Mapper.RoleMapper;
 import com.entity.Role;
 
 @Repository
@@ -14,6 +15,8 @@ public class RoleDaoImpl implements RoleDao {
 	
 	@Autowired
     private JdbcTemplate jdbcTemplate;
+	@Autowired
+	private RoleMapper roleMapper;
 	
 	@Override
 	public Role findOne(Long roleId) {
@@ -23,6 +26,11 @@ public class RoleDaoImpl implements RoleDao {
             return null;
         }
         return roleList.get(0);
+	}
+	
+	@Override
+	public List<Role> all() {
+		return roleMapper.all();
 	}
 	
 }
