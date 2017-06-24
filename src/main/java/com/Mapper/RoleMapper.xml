@@ -10,10 +10,8 @@
 	<resultMap type="com.entity.Role" id="ACCESS_RESULT">
 		<id property="id" column="role_id" />
 		
-		<!-- Get roles name -->
-		<collection property="roles" ofType="com.entity.Role" column="role_id"
-		select="selectRoleById"
-		javaType="ArrayList" />
+		<!-- Get role -->
+		<association property="role" column="role_id" select="selectRoleById" />
 		
 	</resultMap>
 	

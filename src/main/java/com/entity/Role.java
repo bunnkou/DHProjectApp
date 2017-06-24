@@ -7,7 +7,6 @@ public class Role {
 	private String roleName;
 	private String roleTile;
 	private String createDate;
-	private List<Role> roles;
 	
 //	id
 	public Integer getId(){	return id; }
@@ -25,8 +24,12 @@ public class Role {
 	public String getCreateDate(){ return createDate; }
 	public void setCreateDate(String createDate){ this.createDate = createDate; }
 	
-//	roles
-	public List<Role> getRoles(){ return roles; }
-	public void setRoles(List<Role> roles){ this.roles = roles; }
+//	role
+	public void setRole(Role role){ 
+		this.id = role.getId(); 
+		this.roleName = role.getRoleName();
+		this.roleTile = role.getRoleTitle();
+		this.createDate = role.getCreateDate();
+	}
 	
 }

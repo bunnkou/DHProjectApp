@@ -1,13 +1,17 @@
 package com.entity;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
 
 public class Access {
 	private int id;
 	private int role_id;
 	private String user_id;
 	private String userName;
-	private Object roleLst;
+	private String roleName;
+	private List<Role> roleLst;
 		
 	public Access()
 	{
@@ -33,9 +37,18 @@ public class Access {
 	public String getUserName(){ return userName; }
 	public void setUserName( String userName ){ this.userName = userName; }
 	
+//	role_name
+	public String getRoleName(){ return roleName; }
+	public void setRoleName( String roleName ){ this.roleName = roleName; }
+	
 //	roleLst
-	public Object getRoleLst(){ return roleLst; }
-	public void setRoleLst( Object roleLst ){ this.roleLst = roleLst; }
+	public void setRoleLst( List<Role> roleLst ){
+		List role_name_lst = new ArrayList<String>();
+		for(Role role : roleLst){
+			role_name_lst.add( role.getRoleTitle() );
+		}
+		this.roleName = StringUtils.join( role_name_lst , ";" );
+	}
 	
 //	Get user	
 	public void setUser( User user )

@@ -13,9 +13,9 @@
 		javaType="com.entity.User" />
 		
 		<!-- Get roles name -->
-		<association property="roleLst" column="user_id"
+		<collection property="roleLst" column="user_id"
 		select="com.Mapper.RoleMapper.selectRolesById"
-		javaType="object" />
+		javaType="ArrayList" />
 		
 	</resultMap>
 	
