@@ -7,7 +7,9 @@ public interface AccessDao {
 	
 	List<Access> getLst();
 	
-	Access getAccessById(Integer id);
+	Access getAccessById(String id);
 	
 	void saveAccess(Access access);
+	
+	Integer delAccessByUserId(String user_id);
 }

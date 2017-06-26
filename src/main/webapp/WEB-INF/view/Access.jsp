@@ -27,23 +27,34 @@
   </head>
  
 <body class="gray-bg">
-    <div class="wrapper wrapper-content animated fadeInRight">
-    	
+    <div class="wrapper wrapper-content animated fadeInRight">   	
     	<div class="row">
+    		<c:if test="${ not empty errfields }">
+    			<div class="col-sm-12">
+	    			<div class="alert alert-danger">
+	    				<c:forEach var="err" items="${ errfields }" varStatus="status"> 
+	    					${ status.count } . ${ err } 
+	    				</c:forEach>
+	    			</div>
+    			</div>
+    		</c:if>
+    		
     		<div class="col-sm-12">
     			<div class="ibox float-e-margins">
     				<div class="ibox-title">
     					<h5>群组信息</h5>
     				</div>
     				<div class="ibox-content">
-    					<form class="form-horizontal" name="access_form_c" role="form" action="access/store" method="post">
-    						<div style="display:none;"><input type="hidden" name="id" value="${ access.id }" /></div>
+    					<form:form commandName="access" class="form-horizontal" name="access_form_c" role="form" action="access/store" method="post">
+    						<div style="display:none;">
+    							<form:hidden path="user_id" name="user_id" />
+    						</div>
     						<!-- 编辑权限 -->
     						<shiro:hasPermission name="fdbk:edit">
 								<div class="form-group">
 								  <label class="col-sm-2 control-label" for="inputUserName">用户姓名</label>
 								  <div class="col-sm-8">
-								  	<input class="form-control" id="inputUserName" name="inputUserName" placeholder="姓名" value="${ access.userName }" />
+								  	<form:input class="form-control" path="userName" name="inputUserName" placeholder="用户姓名" />
 								  </div>
 								</div>
 								<div class="hr-line-dashed"></div>
@@ -66,7 +77,7 @@
 									<button type="button" class="btn btn-default" onclick="returnLst();">返回</button>
 								</div>
 							</div>
-    					</form>
+    					</form:form>
     				</div>
     			</div>
     		</div>
@@ -88,9 +99,9 @@
         });
         
         function setChecks(){
-        	var member = "${group.groupMember}";
+        	var member = "${ access.roleId }";
         	if (member!=""){
- 				var ret = member.split(",");
+ 				var ret = member.split(";");
  				for(var i=0; i<ret.length; i++){
  					$('#i_cb_'+ret[i]).iCheck('check');
  				}	

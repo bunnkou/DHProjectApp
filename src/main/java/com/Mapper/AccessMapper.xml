@@ -23,11 +23,15 @@
 		SELECT * FROM dh_fdbk_user
 	</select>
 	
-	<select id="getAccessById" parameterType="int" resultMap="ACCESS_RESULT">
-		SELECT * FROM dh_fdbk_user_role WHERE id = #{id}
+	<select id="getAccessById" parameterType="string" resultMap="ACCESS_RESULT">
+		SELECT * FROM dh_fdbk_user WHERE user_id = #{id}
 	</select>
 	
 	<insert id="saveAccess" parameterType="com.entity.Access" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO dh_fdbk_user_role (user_id, role_id) VALUES (#{user_id}, #{role_id})
 	</insert>
+	
+	<delete id="delAccessByUserId" parameterType="string">
+		DELETE FROM dh_fdbk_user_role WHERE user_id = #{user_id}
+	</delete>
 </mapper>

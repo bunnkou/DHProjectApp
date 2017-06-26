@@ -11,6 +11,7 @@ public class Access {
 	private String user_id;
 	private String userName;
 	private String roleName;
+	private String roleId;
 	private List<Role> roleLst;
 		
 	public Access()
@@ -41,13 +42,20 @@ public class Access {
 	public String getRoleName(){ return roleName; }
 	public void setRoleName( String roleName ){ this.roleName = roleName; }
 	
+//	roleId
+	public String getRoleId(){ return roleId; }
+	public void setRoleId( String roleId ){ this.roleId = roleId; }
+	
 //	roleLst
 	public void setRoleLst( List<Role> roleLst ){
 		List role_name_lst = new ArrayList<String>();
+		List role_id_lst = new ArrayList<String>();
 		for(Role role : roleLst){
 			role_name_lst.add( role.getRoleTitle() );
+			role_id_lst.add( role.getId().toString() );
 		}
 		this.roleName = StringUtils.join( role_name_lst , ";" );
+		this.roleId = StringUtils.join( role_id_lst, ";" );
 	}
 	
 //	Get user	

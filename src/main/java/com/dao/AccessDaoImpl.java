@@ -23,9 +23,13 @@ public class AccessDaoImpl implements AccessDao {
 	}
 
 	@Override
-	public Access getAccessById(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+	public Access getAccessById(String id) {
+		return accessMapper.getAccessById(id);
+	}
+
+	@Override
+	public Integer delAccessByUserId(String user_id) {
+		return accessMapper.delAccessByUserId(user_id);
 	}
 
 }

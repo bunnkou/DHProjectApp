@@ -18,11 +18,12 @@ public interface UserDao {
 	
 	Map<String, String> findCPAByName(String userName);
 	
-	void saveUser(User user);
-	
 	Map<String, String> findUserByName(String userName);
 	
 	Integer findCountByCode(String tableName, String code);
+
+	void  saveUser(User user);
 	
-	void saveAsFdbkUser(User user);
+	void  saveAsFdbkUser(User user);
+	
 }

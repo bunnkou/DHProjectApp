@@ -50,7 +50,7 @@
 		    	/* {field: 'state', checkbox: true, align: 'center', valign: 'middle'}, */
 		    	{field: 'userName',title: '姓名'},
 		    	{field: 'roleName',title: '权限'},
-		    	{field: 'id',title: '操作',align: 'center',events: operateEvents,formatter: operateFormatter}
+		    	{field: 'user_id',title: '操作',align: 'center',events: operateEvents,formatter: operateFormatter}
 		    ],
 		    search: true
 		});
@@ -66,7 +66,7 @@
     
     window.operateEvents = {
         'click .like': function (e, value, row, index) {
-        	openDoc(row.id);
+        	openDoc(row.user_id);
         }
     };
     

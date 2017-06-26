@@ -9,5 +9,7 @@ public interface AccessMapper {
 	
 	void saveAccess(Access access);
 	
-	Access getAccessById(Integer id);
+	Access getAccessById(String id);
+	
+	Integer delAccessByUserId(String user_id);
 }
