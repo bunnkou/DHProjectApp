@@ -24,6 +24,8 @@
     <link href="bs-plugins/css/font-awesome.css?v=4.4.0" rel="stylesheet">
     <link href="bs-plugins/css/style.css?v=4.1.0" rel="stylesheet">
     <link href="bs-plugins/css/plugins/iCheck/custom.css" rel="stylesheet">
+    
+    <link href="JS/select2-4.0.3/css/select2.min.css" rel="stylesheet">
   </head>
  
 <body class="gray-bg">
@@ -46,15 +48,12 @@
     				</div>
     				<div class="ibox-content">
     					<form:form commandName="access" class="form-horizontal" name="access_form_c" role="form" action="access/store" method="post">
-    						<div style="display:none;">
-    							<form:hidden path="user_id" name="user_id" />
-    						</div>
     						<!-- 编辑权限 -->
     						<shiro:hasPermission name="fdbk:edit">
 								<div class="form-group">
 								  <label class="col-sm-2 control-label" for="inputUserName">用户姓名</label>
 								  <div class="col-sm-8">
-								  	<form:input class="form-control" path="userName" name="inputUserName" placeholder="用户姓名" />
+								  	<form:select class="form-control" path="user_id" id="inputUserName" placeholder="用户姓名" />
 								  </div>
 								</div>
 								<div class="hr-line-dashed"></div>
@@ -87,10 +86,21 @@
 	
 	<script type="text/javascript" src="JS/tagsinput/jquery-2.2.4.min.js"></script>
 	<script type="text/javascript" src="Bootstrap/js/bootstrap.min.js"></script>
+	
+	<script type="text/javascript" src="JS/select2-4.0.3/js/select2.min.js"></script>
+	
 	<!-- iCheck -->
     <script src="JS/iCheck/icheck.min.js"></script>
     <script>
         $(document).ready(function () {
+        	var $iun = $("#inputUserName");
+        	var names = JSON.parse('${ userLst }');
+        	$iun.select2({
+        		data: names
+        	});
+        	
+        	$iun.select2().val("${ access.user_id }").trigger("change");
+        	
             $('.i-checks').iCheck({
                 checkboxClass: 'icheckbox_square-green'
             });

@@ -1,5 +1,6 @@
 package com.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,10 +10,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -21,13 +24,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.dao.AccessDao;
 import com.dao.RoleDao;
 import com.dao.UserDao;
 import com.entity.Access;
-import com.entity.Role;
 import com.entity.User;
 import com.validator.AccessValidator;
 
@@ -61,6 +62,12 @@ public class AccessController {
 		}
 		mav.addObject("access", access );
 		mav.addObject("roleLst", roleDao.all() );
+		ObjectMapper objectMapper = new ObjectMapper();
+		try {
+			mav.addObject("userLst", objectMapper.writeValueAsString( userDao.allUser() ) );
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		mav.setViewName("Access");
 		return mav;
 	}
@@ -71,14 +78,19 @@ public class AccessController {
 			Errors errors,
 			HttpServletRequest request)
 	{
-		String user_id = access.getUser_id(), 
-			   userName = access.getUserName(),
+		String user_id = access.getUser_id(),
 			   roleIds[] = request.getParameterValues("inputRoleMember");
 		
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("Access");
 		mav.addObject("access", access );
 		mav.addObject("roleLst", roleDao.all() );
+		ObjectMapper objectMapper = new ObjectMapper();
+		try {
+			mav.addObject("userLst", objectMapper.writeValueAsString( userDao.allUser() ) );
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 		accessValidator.validate(access, errors);
 		if( errors.hasErrors() ){
@@ -93,24 +105,20 @@ public class AccessController {
 			return mav;
 		}
 		
-		if ( user_id.equals("") ){	//新建
-			User user = userDao.getByUserName(userName);	//在 ml_pwd_interface 中查询是否存在该用户
-			if ( null == user ){
-				user = newUser(userName);
-				if ( null == user ){	//未找到用户
-					mav.addObject("errfields", "没有在人员组织库中找到对应用户，请确认用户姓名是否输入正确");
-					return mav;
-				}
+		User user = userDao.getByUserName(user_id);	//在 ml_pwd_interface 中查询是否存在该用户
+		if ( null == user ){
+			user = newUser(user_id);
+			if ( null == user ){	//未找到用户
+				mav.addObject("errfields", "没有在人员组织库中找到对应用户，请确认用户姓名是否输入正确");
+				return mav;
 			}
-			
-			if ( userDao.findCountByCode("dh_fdbk_user", user.getUser_id()).equals(0) ){	//在 dh_fdbk_user 中查询是否存在该用户 
-				userDao.saveAsFdbkUser(user);
-			}
-			
-			access.setUser_id( user.getUser_id() );
-		}else{	//更新
-			accessDao.delAccessByUserId(access.getUser_id());	//删除 dh_fdbk_user_role 所有该用户的权限
 		}
+		
+		if ( userDao.findCountByCode("dh_fdbk_user", user.getUser_id()).equals(0) ){	//在 dh_fdbk_user 中查询是否存在该用户 
+			userDao.saveAsFdbkUser(user);
+		}
+		
+		accessDao.delAccessByUserId(access.getUser_id());	//删除 dh_fdbk_user_role 所有该用户的权限
 		
 		//更新 dh_fdbk_user_role; role_id
 		for ( String role_id : roleIds ){
@@ -124,19 +132,21 @@ public class AccessController {
 		return mav;
 	}
 	
-	public User newUser(String userName)
+	public User newUser(String user_id)
 	{
 //		在 ml_user 中查询用户的 user_id, name_py
 		Map<String, String> map = new HashMap<String, String>();
-		map = userDao.findCPAByName(userName);
+//		map = userDao.findCPAByName(user_id);	弃用，改为使用ID查找
+		map = userDao.findUserById(user_id);
+		
 		if ( null == map ) return null;
 //		插入 ml_pwd_interface
 		User user = new User();
-		user.setUser_id(map.get("code"));
-		user.setName(userName);
-		user.setName_py(map.get("phonetic"));
-		user.setPassword("123456");
-		userDao.saveUser(user);
+		user.setUser_id( user_id );
+		user.setName( map.get("name") );
+		user.setName_py( map.get("phonetic") );
+		user.setPassword( "123456" );	//默认密码
+		userDao.saveUser( user );
 		return user;
 	}
 	

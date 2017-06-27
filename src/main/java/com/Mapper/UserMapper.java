@@ -1,5 +1,6 @@
 package com.Mapper;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
@@ -14,6 +15,8 @@ public interface UserMapper {
 	
 	Map<String, String> getUserByName(String userName);
 	
+	Map<String, String> getUserById(String userId);
+	
 	Integer findCountByCode(
 			@Param("tableName") String tableName,
 			@Param("code") String code
@@ -22,4 +25,6 @@ public interface UserMapper {
 	void saveUser(User user);
 	
 	void saveAsFdbkUser(User user);
+	
+	List<Map<String, Object>> allUser();
 }

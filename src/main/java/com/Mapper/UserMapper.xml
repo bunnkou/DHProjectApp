@@ -8,19 +8,28 @@
 	</select>
 	
 	<select id="getCPAByName" parameterType="String" resultMap="Result_getCPAByName">
-		SELECT Code, REPLACE( LOWER(Name_EN), ' ','' ) AS phonetic FROM ml_user WHERE Name_CN = #{userName} AND Status = '1'
+		SELECT Name_CN as name, REPLACE( LOWER(Name_EN), ' ','' ) AS phonetic FROM ml_user WHERE Name_CN = #{userName} AND Status = '1'
 	</select>
 	<resultMap type="java.util.HashMap" id="Result_getCPAByName">
 		<result property="code" column="Code" />
 		<result property="phonetic" column="phonetic" />
 	</resultMap>
 	
+	<select id="getUserById" parameterType="String" resultType="hashmap">
+		SELECT Name_CN as name, REPLACE( LOWER(Name_EN), ' ','' ) AS phonetic FROM ml_user WHERE Code = #{userId} AND Status = '1'
+	</select>
+	
 	<select id="getUserByName" parameterType="String" resultType="java.util.HashMap">
-		SELECT * FROM ml_user WHERE Name_CN = #{userName} AND Status = '1'
+			SELECT * FROM ml_user 
+			WHERE ( Name_CN = #{userName} OR REPLACE(LOWER(Name_EN), ' ', '') = #{userName} ) AND STATUS = '1'
 	</select>
 	
 	<select id="findCountByCode" resultType="int" statementType="STATEMENT">
 		SELECT COUNT(1) FROM ${tableName} WHERE user_id = '${code}'
+	</select>
+	
+	<select id="allUser" resultType="java.util.HashMap">
+		SELECT Code as id, CONCAT(Name_CN, " , ", REPLACE (LOWER(Name_EN), ' ', '') ) AS text FROM ml_user WHERE Status = '1'
 	</select>
 	
 	<insert id="saveUser" parameterType="com.entity.User">

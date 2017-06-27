@@ -16,9 +16,13 @@ public interface UserDao {
 	
 	List<Map<String, Object>> getAllNames();
 	
+	List<Map<String, Object>> allUser();
+	
 	Map<String, String> findCPAByName(String userName);
 	
 	Map<String, String> findUserByName(String userName);
+	
+	Map<String, String> findUserById(String userId);
 	
 	Integer findCountByCode(String tableName, String code);
 

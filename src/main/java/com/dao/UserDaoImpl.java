@@ -23,9 +23,9 @@ public class UserDaoImpl implements UserDao {
 		
 	@Override
 	public User getByUserName(String userName){
-		String sql = "select * from ml_pwd_interface where name = ? or name_py = ?";
+		String sql = "select * from ml_pwd_interface where name = ? or name_py = ? or user_id = ?";
         List<User> userList = jdbcTemplate.query(sql, 
-        		new Object[]{userName,userName} , 
+        		new Object[]{userName,userName,userName}, 
         		new BeanPropertyRowMapper<User>(User.class));
         if(userList.size() == 0) return null;
         return userList.get(0);
@@ -84,6 +84,16 @@ public class UserDaoImpl implements UserDao {
 	@Override
 	public void saveAsFdbkUser(User user) {
 		userMapper.saveAsFdbkUser(user);
+	}
+
+	@Override
+	public List<Map<String, Object>> allUser() {
+		return userMapper.allUser();
+	}
+
+	@Override
+	public Map<String, String> findUserById(String userId) {
+		return userMapper.getUserById(userId);
 	}
 	
 }
