@@ -74,7 +74,7 @@ public class AccessController {
 	
 	@RequestMapping(value="/access/store", method=RequestMethod.POST)
 	public ModelAndView store(
-			@ModelAttribute Access access,
+			Access access,
 			Errors errors,
 			HttpServletRequest request)
 	{

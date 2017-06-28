@@ -29,7 +29,7 @@
 	</select>
 	
 	<select id="allUser" resultType="java.util.HashMap">
-		SELECT Code as id, CONCAT(Name_CN, " , ", REPLACE (LOWER(Name_EN), ' ', '') ) AS text FROM ml_user WHERE Status = '1'
+		SELECT Code as id, CONCAT(Name_CN, " , ", REPLACE (LOWER(Name_EN), ' ', '') ) AS text FROM ml_user WHERE Status = '1' AND Code != 'SH0000'
 	</select>
 	
 	<insert id="saveUser" parameterType="com.entity.User">
