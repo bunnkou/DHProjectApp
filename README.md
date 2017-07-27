@@ -29,4 +29,11 @@
 
 # 170720修改记录
 1. 新增了工时表功能
-2. 新增了jq插件 timecard.js
+2. 新增了插件 timecard.js
+
+# 170727修改记录
+1. 调整了工时表逻辑，按照时间段进行项目管理
+2. 引入了 daterangepicker 插件用于时间段选择
+3. 调整了 dh_timecard 表结构
+4. 大幅度调整了 vwTimecard.jsp 视图内容
+5. 修改了 timecard.js 插件，详情见 jquery-plugin-timecard 项目
