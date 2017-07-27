@@ -15,6 +15,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import com.Mapper.FeedbackMapper;
 import com.entity.Feedback;
 
 @Repository
@@ -25,6 +26,9 @@ public class FeedbackDaoImpl implements FeedbackDao {
 	
 	@Autowired
     private JdbcTemplate jdbcTemplate;
+	
+	@Autowired
+	private FeedbackMapper feedbackMapper;
 	
 	@Override
 	public List<Feedback> getFbList(Map<String, Object> map){
@@ -131,6 +135,11 @@ public class FeedbackDaoImpl implements FeedbackDao {
 		sql += condition;
 		jdbcTemplate.execute(sql);
 		return "SUCCESS";
+	}
+
+	@Override
+	public List<Map<String, String>> getFbGroupByPjname() {
+		return feedbackMapper.getFbGroupByPjname();
 	}
 	
 }

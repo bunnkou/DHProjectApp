@@ -30,4 +30,5 @@ public interface UserDao {
 	
 	void  saveAsFdbkUser(User user);
 	
+	List<String> getEmployeeOfDH();
 }

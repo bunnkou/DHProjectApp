@@ -88,6 +88,12 @@
 	                        </a>
 	                    </li>
 	                    <li>
+	                        <a class="J_menuItem" href="<%=basePath%>/timecard/index">
+	                            <i class="fa fa-calendar-check-o"></i>
+	                            <span class="nav-label">工时表</span>
+	                        </a>
+	                    </li>
+	                    <li>
 	                        <a class="J_menuItem" href="<%=basePath%>/access/index">
 	                            <i class="fa fa-cog"></i>
 	                            <span class="nav-label">权限</span>

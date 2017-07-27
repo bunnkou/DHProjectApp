@@ -17,4 +17,6 @@ public interface FeedbackDao {
 	String updateRecRdr(Object[] arg);
 	
 	String delByID(Map<String, Object> map);
+	
+	List<Map<String, String>> getFbGroupByPjname();
 }

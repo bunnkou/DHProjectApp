@@ -27,4 +27,6 @@ public interface UserMapper {
 	void saveAsFdbkUser(User user);
 	
 	List<Map<String, Object>> allUser();
+	
+	List<String> getEmployeeOfDH();
 }

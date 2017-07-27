@@ -95,5 +95,10 @@ public class UserDaoImpl implements UserDao {
 	public Map<String, String> findUserById(String userId) {
 		return userMapper.getUserById(userId);
 	}
+
+	@Override
+	public List<String> getEmployeeOfDH() {
+		return userMapper.getEmployeeOfDH();
+	}
 	
 }
