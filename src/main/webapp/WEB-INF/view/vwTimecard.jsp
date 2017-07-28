@@ -62,9 +62,8 @@
         			<table id="project-table" class="table table-hover"></table>
         		</div>
         		
-        		<div id="unselected_div">
-        			<h5>未进项目人员：</h5>
-        		</div>
+        		<h5>未进项目人员：</h5>
+        		<div id="unselected_div"></div>
         		  		
 	        </div>	<!-- ibox-content -->
         </div>	<!-- ibox float-e-margins -->
@@ -83,8 +82,9 @@
 	
 	<script type="text/javascript">
 		var pData = ${ persons };
-		var sData = JSON.parse('${ sData }');
-		
+		var sData = JSON.parse('${ sData }'),
+			pjTable = $('#project-table');
+				
 		$(document).ready(function(){
 			
 			$('#div_DateRangePicker').dateRangePicker({
@@ -110,7 +110,7 @@
 			$('#inputStartDate').val(fmt_sDate);
 			$('#inputEndDate').val(fmt_eDate);
 						
-			$('#project-table').timecard({
+			pjTable.timecard({
 				data:getProjectsByDate(),
 				columns:[[
 					{field:'id', hidden:true},
@@ -123,13 +123,45 @@
 				sourcePool: "unselected_div",
 				multiLabel: true,
 				success:function(o){
-					/* RemoveElementFromArray(o.INIT_PERSONS, tmpArr);	*/
-					var tmpArr = pData;
-					o.OperatePerson(tmpArr, "remove");
+					o.OperatePerson(pData, "remove");
+					changeLabelStatus(o);
 				}
+			}).bind('label-click', function(event, obj){
+				changeLabelStatus();
 			});
 			
 		});
+		
+		function changeLabelStatus(obj){
+			var ret = null,
+				tmpStr = "",
+				tmpArr = [],
+				pool = $('#unselected_div');
+			if (obj) {
+				ret = [];
+				for (var i=0; i<obj.data.length; i++){
+					var opt = {};
+					opt.persons = obj.data[i].persons;
+					ret.push(opt);
+				}
+			}else{
+				ret = pjTable.timecard('getData', 'uncheck');
+			}
+			for (var i=0; i<ret.length; i++){
+				if (tmpStr) tmpStr += ",";
+				tmpStr += ret[i].persons;
+			}
+			tmpArr = tmpStr.split(",");
+			ret = pool.find('a');
+			for (var i=0; i<ret.length; i++){	//改变列表中人员状态
+				if (tmpArr.indexOf($(ret[i]).text())!=-1){
+					$(ret[i]).removeClass().addClass('btn btn-outline btn-danger btn-sm').appendTo(pool);
+				}else{
+					if ( $(ret[i]).hasClass('btn-default') ) continue;
+					$(ret[i]).removeClass().addClass('btn btn-default btn-sm').prependTo(pool);
+				}
+			}
+		}
 		
 		function getProjectsByDate(param){
 			var date1 = $('#inputStartDate').val(),
@@ -142,7 +174,7 @@
 				async:false,
 				success:function(data){
 					json = data;
-					if(param=="reload") $('#project-table').timecard(param, data);
+					if(param=="reload") pjTable.timecard(param, data);
 				},
 				dataType:"json"
 			});
@@ -157,13 +189,16 @@
 		}
 		
 		function addRow(){
-			$('#project-table').timecard('addRow');
+			pjTable.timecard('addRow');
 		}
 		
 		function removeRow(){
-			var rowData = $('#project-table').timecard('getRowData');
-			$('#project-table').timecard('removeRow');
+			var c = confirm("确认删除此项目");
+			if (!c) return;
+			var rowData = pjTable.timecard('getRowData');			
+			pjTable.timecard('removeRow');
 			$.post("timecard/delete", {id:rowData.id});
+			changeLabelStatus();
 		}
 		
 		function accept(){
@@ -175,8 +210,8 @@
 				return false;
 			}
 			
-			var ret = $('#project-table').timecard('getData');
-				url = "timecard/store"
+			var ret = pjTable.timecard('getData'),
+				url = "timecard/store",
 				json = tmp = "";
 			
 			for(var i=0; i<ret.length; i++){
@@ -202,7 +237,7 @@
 				traditional: true,
 				data: JSON.stringify(json),				
 				success: function(data){
-					$('#project-table').timecard('reload', data);
+					pjTable.timecard('reload', data);
 				}
 			});
 			

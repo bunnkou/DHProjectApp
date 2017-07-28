@@ -105,7 +105,9 @@ public class TimecardController {
 			tc.setDate1(date1);
 			tc.setDate2(date2);
 			tc.setTitle(row.getString("title"));
-			tc.setPersons(row.getString("persons"));
+			String persons = row.getString("persons");
+			if (persons.equals("undefined")) persons = "";
+			tc.setPersons(persons);
 			tc.setLastUpdatePerson( (String) SecurityUtils.getSubject().getPrincipal() );
 			Date date = new Date();
 			Timestamp ts = new Timestamp( date.getTime() );
@@ -119,9 +121,11 @@ public class TimecardController {
 	}
 	
 	@RequestMapping("delete")
-	public void delete(HttpServletRequest request) 
+	@ResponseBody
+	public String delete(HttpServletRequest request) 
 	{
 		int id = Integer.parseInt( request.getParameter("id") );
 		tcDao.deleteTC(id);
+		return "{'status':'ok'}";
 	}
 }

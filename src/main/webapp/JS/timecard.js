@@ -29,8 +29,8 @@
 				//初始化完成操作
 				this.INIT_PERSONS = this.setInitPersons(this.data);
 			}
-			this.callback(this);
 			this.CUR_ROW_IDX = -1;
+			this.callback(this);
 		},
 		
 		setColumns: function(o, tr){
@@ -78,10 +78,11 @@
 		
 		getRowData: function(index){
 			//{field:'title', width:'80%', editor:{type:'select', options:{data:sData}} }
-			if (index == null) index = this.CUR_ROW_IDX;
+			if (typeof(index)!="number") index = this.CUR_ROW_IDX;
 			var rowData = [],
 				tr = this.element.find("tr").eq(index),
 				IS_EDITING = tr.attr('IS_EDITING')==undefined?false:true;
+			
 			for (var i=0, col, editor, type, value; i<this.columns.length; i++,value=""){
 				col = this.columns[i];
 				editor = col.editor;
@@ -157,6 +158,7 @@
 			}
 			if (target == null) return;
 			if (typeof(o) == 'string'){
+				if (o=="" | o=="undefined") return;
 				if (o.indexOf(",")!==-1) oArr = o.split(",")	//string to array
 				else oArr[0] = o;								//string
 			}else{
@@ -171,10 +173,12 @@
 					IS_OBJ = true;
 				}else{
 					nObj = $(document.createElement('a'));
-					nObj.addClass("btn").addClass("btn-default").addClass("btn-sm").html( oArr[i] )
+					nObj.html(oArr[i]);
 				}
+				nObj.removeClass().addClass("btn btn-default btn-sm");
 				nObj.bind('click', function(){
 					that.OperatePerson(this, opt=="add"?"remove":"add");
+					that.element.trigger('label-click', [this]);
 				});
 				labelArea = target.find('a');
 				for( var j=0; j<labelArea.length; j++ ){
@@ -211,10 +215,12 @@
 			return true;
 		},
 		
-		getData: function(){
+		getData: function(opt){
 			var that = this,
 				data = [];
-			if (!this.FinishEditing()) return false;
+			if (opt!="uncheck"){
+				if (!this.FinishEditing()) return false;
+			}
 			this.element.find('tr').each(function(i, n){
 				data.push(that.getRowData(i));
 			});
