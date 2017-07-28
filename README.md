@@ -1,4 +1,7 @@
 # 客户反馈系统
+![image](https://github.com/bunnkou/DHProjectApp/blob/master/Preview_1.png)
+![image](https://github.com/bunnkou/DHProjectApp/blob/master/Preview_2.png)
+![image](https://github.com/bunnkou/DHProjectApp/blob/master/Preview_3.png)
 
 # 功能
 1. 发布客户反馈信息，支持富文本编辑器、上传图片压缩、项目归类、指派查看人员等功能
